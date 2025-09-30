@@ -1,0 +1,19 @@
+{
+  "orgName": "sfdx-project-template",
+  "edition": "Developer",
+  "features": [
+  ],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    },
+    "communitiesSettings": {
+      "enableNetworksEnabled": true,
+      "enableOotbProfExtUserOpsEnable": true
+    }
+  }
+}
+
