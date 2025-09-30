@@ -13,7 +13,7 @@ on:
         required: true
 
 jobs:
-  deploy_developer:
+  deploy:
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/sfdx-deployment-pipeline.yml@IN-761
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
