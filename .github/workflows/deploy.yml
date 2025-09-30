@@ -14,17 +14,17 @@ on:
 
 jobs:
   deploy_developer:
+    environment: developer
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761
     with:
-      environment: developer
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
   deploy_uat:
+    environment: uat
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@IN-761
     with:
-      environment: uat
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
@@ -32,12 +32,13 @@ jobs:
       - deploy_developer
 
   deploy_prod:
+    environment: prod
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@IN-761
     with:
-      environment: prod
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
     needs:
       - deploy_uat
+
 
