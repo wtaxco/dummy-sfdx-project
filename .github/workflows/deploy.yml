@@ -14,7 +14,7 @@ on:
 
 jobs:
   deploy_developer:
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/sfdx-deployment-pipelines.yml@IN-761
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
     secrets:
