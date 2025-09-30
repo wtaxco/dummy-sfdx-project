@@ -3,7 +3,7 @@ name: Deploy Salesforce
 on:
   push:
     branches:
-      - main
+      - 123
   workflow_dispatch:
     inputs:
       run-tests:

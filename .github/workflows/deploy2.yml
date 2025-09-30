@@ -1,0 +1,21 @@
+name: Deploy Salesforce
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      run-tests:
+        description: "Run Apex tests"
+        type: boolean
+        default: true
+        required: true
+
+jobs:
+  deploy_developer:
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/sfdx-deployment-pipeline.yml@IN-761
+    with:
+      run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
+    secrets:
+      ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
