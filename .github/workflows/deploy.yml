@@ -26,7 +26,7 @@ jobs:
 
   Build:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761-Main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
 
   Developer:
     if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
