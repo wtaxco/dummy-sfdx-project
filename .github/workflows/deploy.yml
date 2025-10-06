@@ -13,11 +13,19 @@ on:
         required: true
 
 jobs:
+  Build:
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761
+    secrets:
+      ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
+
   Developer:
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761-Main
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: developer
+      metadata-zip-file: ${{ needs.Build.outputs.metadata-zip-file }}
+      test-classes-file: ${{ needs.Build.outputs.test-classes-file }}
+      deletes-file: ${{ needs.Build.outputs.deletes-file }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
