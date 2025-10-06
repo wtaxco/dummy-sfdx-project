@@ -15,7 +15,7 @@ on:
 
 jobs:
   Push to Scratch:
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@main
     with:
       run-tests: yes
@@ -23,11 +23,11 @@ jobs:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
   Build:
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761-Main
 
   Developer:
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch'  }}
     needs: Build
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761-Main
     with:
@@ -40,7 +40,7 @@ jobs:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
   UAT:
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch'  }}
     needs: [Developer, Build]
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@IN-761-Main
     with:
@@ -53,7 +53,7 @@ jobs:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
   Production:
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch'  }}
     needs: [UAT, Build]
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@IN-761-Main
     with:
