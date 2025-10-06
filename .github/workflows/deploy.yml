@@ -33,6 +33,9 @@ jobs:
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: uat
+      metadata-zip-file: ${{ needs.Build.outputs.metadata-zip-file }}
+      test-classes-file: ${{ needs.Build.outputs.test-classes-file }}
+      deletes-file: ${{ needs.Build.outputs.deletes-file }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
     needs:
@@ -43,6 +46,9 @@ jobs:
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: prod
+      metadata-zip-file: ${{ needs.Build.outputs.metadata-zip-file }}
+      test-classes-file: ${{ needs.Build.outputs.test-classes-file }}
+      deletes-file: ${{ needs.Build.outputs.deletes-file }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
     needs:
