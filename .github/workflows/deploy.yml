@@ -31,7 +31,7 @@ jobs:
   Developer:
     if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
     needs: Build
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761-Main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: developer
@@ -44,7 +44,7 @@ jobs:
   UAT:
     if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
     needs: [Developer, Build]
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@IN-761-Main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: uat
@@ -57,7 +57,7 @@ jobs:
   Production:
     if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
     needs: [UAT, Build]
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@IN-761-Main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: prod
