@@ -14,7 +14,7 @@ on:
 
 jobs:
   Build:
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761-Main
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
