@@ -14,7 +14,7 @@ on:
         required: true
 
 jobs:
-  Push to Scratch:
+  Push-to-Scratch:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@main
     with:
