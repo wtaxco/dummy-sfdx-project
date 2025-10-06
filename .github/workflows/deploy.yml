@@ -17,6 +17,7 @@ jobs:
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761-Main
 
   Developer:
+    needs: Build
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761-Main
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
