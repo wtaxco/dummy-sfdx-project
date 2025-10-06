@@ -29,7 +29,7 @@ jobs:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
   UAT:
-    needs: Developer
+    needs: [Developer, Build]
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@IN-761-Main
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
