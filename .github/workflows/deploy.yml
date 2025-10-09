@@ -1,11 +1,9 @@
-name: Compile, Build & Deploy Salesforce Project
+name: Build & Deploy Salesforce
 
 on:
-  pull_request:
-
   push:
     branches:
-      - main1
+      - main
 
   workflow_dispatch:
     inputs:
@@ -16,53 +14,43 @@ on:
         required: true
 
 jobs:
-  Push-to-Scratch:
-    if: ${{ github.event_name == 'pull_request'}}
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@main
+  build:
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@testing
     with:
-      run-tests: yes
-    secrets:
-      ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
+      run-compile-and-test: false
 
-  Build:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-artefact.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
-
-  Developer:
-    if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
-    needs: Build
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
+  developer:
+    needs: build
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@testing
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: developer
-      metadata-zip-file: ${{ needs.Build.outputs.metadata-zip-file }}
-      test-classes-file: ${{ needs.Build.outputs.test-classes-file }}
-      deletes-file: ${{ needs.Build.outputs.deletes-file }}
+      metadata-artifact: ${{ needs.build.outputs.metadata-artifact }}
+      test-classes-artifact: ${{ needs.build.outputs.test-classes-artifact }}
+      deletes-artifact: ${{ needs.build.outputs.deletes-artifact }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
-  UAT:
-    if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
-    needs: [Developer, Build]
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
+  uat:
+    needs: [developer, build]
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@testing
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: uat
-      metadata-zip-file: ${{ needs.Build.outputs.metadata-zip-file }}
-      test-classes-file: ${{ needs.Build.outputs.test-classes-file }}
-      deletes-file: ${{ needs.Build.outputs.deletes-file }}
+      metadata-artifact: ${{ needs.build.outputs.metadata-artifact }}
+      test-classes-artifact: ${{ needs.build.outputs.test-classes-artifact }}
+      deletes-artifact: ${{ needs.build.outputs.deletes-artifact }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
-  Production:
-    if: ${{ github.event_name == 'push'  || github.event_name == 'workflow_dispatch'}}
-    needs: [UAT, Build]
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@IN-761-Monolithic-SFDX-Deployment-Pipeline
+  production:
+    needs: [uat, build]
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@testing
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: prod
-      metadata-zip-file: ${{ needs.Build.outputs.metadata-zip-file }}
-      test-classes-file: ${{ needs.Build.outputs.test-classes-file }}
-      deletes-file: ${{ needs.Build.outputs.deletes-file }}
+      metadata-artifact: ${{ needs.build.outputs.metadata-artifact }}
+      test-classes-artifact: ${{ needs.build.outputs.test-classes-artifact }}
+      deletes-artifact: ${{ needs.build.outputs.deletes-artifact }}
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
