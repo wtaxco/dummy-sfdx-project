@@ -18,6 +18,8 @@ jobs:
     uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@testing
     with:
       run-compile-and-test: false
+    secrets:
+      ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
 
   developer:
     needs: build
