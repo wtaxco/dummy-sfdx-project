@@ -3,7 +3,7 @@
     <fullName>Active2__c</fullName>
     <defaultValue>true</defaultValue>
     <externalId>false</externalId>
-    <label>Active</label>
+    <label>Is Active</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>
