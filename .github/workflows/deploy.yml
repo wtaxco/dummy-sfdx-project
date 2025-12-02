@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/build-sfdx-project.yml@testing
     with:
       run-compile-and-test: false
     secrets:
@@ -23,7 +23,7 @@ jobs:
 
   developer:
     needs: build
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-developer.yml@testing
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: developer
@@ -36,7 +36,7 @@ jobs:
 
   uat:
     needs: [developer, build]
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-uat.yml@testing
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: uat
@@ -49,7 +49,7 @@ jobs:
 
   production:
     needs: [uat, build]
-    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@main
+    uses: wtaxco/wtax-github-actions-workflows/.github/workflows/deploy-sfdx-project-to-prod.yml@testing
     with:
       run-tests: ${{ inputs.run-tests == null || inputs.run-tests }}
       environment: prod
