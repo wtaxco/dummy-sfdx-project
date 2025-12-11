@@ -10,3 +10,4 @@ jobs:
       run-tests: yes
     secrets:
       ansible-vault-password: ${{ secrets.VAULT_PASSWORD }}
+
