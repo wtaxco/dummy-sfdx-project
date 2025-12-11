@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    uses: ./test.yml
+    uses: ./.github/workflows/test.yml
     with:
       run-tests: yes
     secrets:
